@@ -89,8 +89,8 @@ const server = http.createServer((req, res) => {
                 const data = await response.json();
 
                 const aiResponse =
-                    data.choices?.[0]?.message?.content ||
-                    "No response generated.";
+                    data?.choices?.[0]?.message?.content ??
+                    "Sorry! No AI response generated.";
 
                 fs.readFile(htmlPath, "utf8", (err, html) => {
 
@@ -143,7 +143,11 @@ const server = http.createServer((req, res) => {
                         `
                         <h2>Error</h2>
 
-                        <p>${error.message}</p>
+                        <p>
+Something went wrong while communicating with Groq API.
+<br><br>
+${error.message}
+</p>
                         `
                     );
 
@@ -171,7 +175,7 @@ const server = http.createServer((req, res) => {
             "Content-Type": "text/plain"
         });
 
-        res.end("404 Page Not Found");
+        res.end("404 | Page Not Found");
 
     }
 
